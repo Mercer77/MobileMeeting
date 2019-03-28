@@ -84,7 +84,11 @@ public class FragmentMine extends Fragment{
         userimage = rootview.findViewById(R.id.user_picture);
         hintclick = rootview.findViewById(R.id.hintclick);
         username = rootview.findViewById(R.id.user_name);
-        Bitmap bitmap = ((BitmapDrawable) userimage.getDrawable()).getBitmap();
+        return  rootview;
+
+    }
+}
+      /*  Bitmap bitmap = ((BitmapDrawable) userimage.getDrawable()).getBitmap();
 
         //SharedPreferencesUtils.clear();
 
@@ -269,14 +273,14 @@ public class FragmentMine extends Fragment{
         blur(getContext(),bitmap);
     }
 
-    /**
+    *//**
      * 根据图片路径和格式把图片转化为Base64编码格式
      * @param //imgPath
      * @param //bitmap
      * @param //imgFormat 图片格式
      * @param //quality 压缩的程度
      * @return
-     */
+     *//*
 //    public static String imgToBase64(Context context, String imgPath, String imgFormat, int quality) {
 //        Bitmap bitmap = null;
 //        if (imgPath !=null && imgPath.length() > 0) {
@@ -391,20 +395,19 @@ public class FragmentMine extends Fragment{
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
-    /**
+    *//**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is DownloadsProvider.
-     */
+     *//*
     public static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
-    /**
+    *//**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is MediaProvider.
-     */
+     *//*
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
-    }
+    }*/
 
-}
