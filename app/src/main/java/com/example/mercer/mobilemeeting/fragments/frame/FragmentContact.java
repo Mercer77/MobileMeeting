@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Administrator on 2019/3/28 18:26.
  */
 public class FragmentContact extends Fragment implements SideBar
-        .OnTouchingLetterChangedListener, TextWatcher ,View.OnClickListener{
+        .OnTouchingLetterChangedListener, TextWatcher{
 
     private ListView mListView;
     private TextView mFooterView;
@@ -40,13 +40,12 @@ public class FragmentContact extends Fragment implements SideBar
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_contact,container,false);
         SideBar mSideBar = (SideBar) rootView.findViewById(R.id.school_friend_sidrbar);
         TextView mDialog = (TextView) rootView.findViewById(R.id.school_friend_dialog);
         EditText mSearchInput = (EditText) rootView.findViewById(R.id.school_friend_member_search_input);
         mListView = (ListView) rootView.findViewById(R.id.school_friend_member);
         friend_back = rootView.findViewById(R.id.back);
-        friend_back.setOnClickListener(this);
 
         mSideBar.setTextView(mDialog);
         mSideBar.setOnTouchingLetterChangedListener(this);
@@ -150,14 +149,4 @@ public class FragmentContact extends Fragment implements SideBar
     public void afterTextChanged(Editable s) {
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.back:
-                getActivity().onBackPressed();
-                break;
-            default:
-                break;
-        }
-    }
 }

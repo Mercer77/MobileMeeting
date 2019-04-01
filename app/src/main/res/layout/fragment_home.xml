@@ -39,11 +39,12 @@
                     app:banner_pageChangeDuration="800"
                     app:banner_tipTextColor="#FFFFFF"
                     app:banner_tipTextSize="12sp"/>
-
+                <!--注意使用的时候需要把LampView里面的HorizonScrollTextView也改了-->
                 <com.example.mercer.mobilemeeting.widget.Lamp.LampView
                     android:id="@+id/lamp_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                 </com.example.mercer.mobilemeeting.widget.Lamp.LampView>
             </LinearLayout>
             <LinearLayout
@@ -94,4 +95,5 @@
             android:singleLine="true"
             android:textColor="#fff" />
     </RelativeLayout>
+
 </RelativeLayout>

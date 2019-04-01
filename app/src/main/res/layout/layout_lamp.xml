@@ -38,7 +38,7 @@
             android:paddingBottom="1dp"
             android:text="通知" />
 
-        <com.example.administrator.access_school_client.widget.Lamp.HorizonScrollTextView
+        <com.example.mercer.mobilemeeting.widget.Lamp.HorizonScrollTextView
             android:id="@+id/horizonScrollTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

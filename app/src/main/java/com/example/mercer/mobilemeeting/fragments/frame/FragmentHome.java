@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mercer.mobilemeeting.R;
+import com.example.mercer.mobilemeeting.widget.Lamp.LampView;
 
 /**
  * ..
@@ -16,6 +17,8 @@ import com.example.mercer.mobilemeeting.R;
  * Administrator on 2019/3/28 18:26.
  */
 public class FragmentHome extends Fragment{
+
+    LampView lampView;
 
     @Nullable
     @Override
