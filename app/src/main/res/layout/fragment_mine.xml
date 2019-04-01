@@ -1,249 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f3f2f2"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="45dp"
+        android:background="@color/mt_blue"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/back_fd"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back"
+            android:gravity="center_vertical"/>
+        <Button
+            android:alpha="0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的"
+            android:textColor="#fff"/>
+        <Button
+            android:alpha="0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6" />
+        <ImageView
+            android:id="@+id/setting_frienddetail"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/seeting"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="90dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="#fff">
+
+            <com.example.mercer.mobilemeeting.widget.CircleImageView
+                android:id="@+id/userPicture"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@mipmap/meetingpicture"
+                app:border_color="#CCCCCC"
+                app:border_width="1dp"
+                android:layout_marginRight="20dp"/>
 
             <LinearLayout
-                android:id="@+id/user_ll"
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="#9fbedc">
-
-                <com.example.administrator.access_school_client.Util.CircleImageView
-                    android:id="@+id/user_picture"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="50dp"
-                    android:src="@drawable/timg"
-                    app:border_color="#CCCCCC"
-                    app:border_width="1dp" />
-
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
                 <TextView
-                    android:id="@+id/user_name"
+                    android:id="@+id/userName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginTop="20dp"
-                    android:text="none"
-                    android:textSize="20sp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="#f3f2f2">
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:hint="张三"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/phoneNum"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/wd_ll_mymt"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:paddingRight="10dp"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:background="#fff">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="我的会议" />
-                        <Button
-                            android:alpha="0"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.0" />
-                        <TextView
-                            android:alpha="0"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="#会议时间#"/>
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="35dp"
-                            android:src="@mipmap/go"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:id="@+id/wd_ll_gotomt"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:background="#fff">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="参加会议" />
-                            <Button
-                                android:alpha="0"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1.0" />
-                            <TextView
-                                android:alpha="0"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="#会议时间#"/>
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="35dp"
-                                android:src="@mipmap/go"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="#ddcfcccc" />
-
-                        <LinearLayout
-                            android:id="@+id/face_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:background="#fff">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="人脸验证" />
-                            <Button
-                                android:alpha="0"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1.0" />
-                            <TextView
-                                android:alpha="0"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="#会议时长#"/>
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="35dp"
-                                android:src="@mipmap/go"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="#ddcfcccc" />
-
-                        <LinearLayout
-                            android:id="@+id/info"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:background="#fff">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="个人信息" />
-                            <Button
-                                android:alpha="0"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1.0" />
-                            <TextView
-                                android:alpha="0"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="#会议说明#"/>
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="35dp"
-                                android:src="@mipmap/go"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="#ddcfcccc" />
-
-                        <LinearLayout
-                            android:id="@+id/hintclick"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:background="#fff"
-                            android:layout_marginTop="30dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="设置" />
-                            <Button
-                                android:alpha="0"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1.0" />
-                            <TextView
-                                android:alpha="0"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="#会议说明#"/>
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="35dp"
-                                android:src="@mipmap/go"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="#ddcfcccc" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:hint="177*****0672"
+                    android:layout_marginTop="10dp"/>
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="首页"-->
-    <!--android:gravity="center"/>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/myMeeting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="#fff">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的会议" />
+                <Button
+                    android:alpha="0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0" />
+                <TextView
+                    android:alpha="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ccc"
+                    android:text="#会议时间#"/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="35dp"
+                    android:src="@mipmap/go"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#ddcfcccc" />
+            <LinearLayout
+                android:id="@+id/recording"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="#fff">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="浏览记录" />
+                <Button
+                    android:alpha="0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0" />
+                <TextView
+                    android:alpha="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ccc"
+                    android:text="#会议时间#"/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="35dp"
+                    android:src="@mipmap/go"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/myCollection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="#fff"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的收藏" />
+                <Button
+                    android:alpha="0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0" />
+                <TextView
+                    android:alpha="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ccc"
+                    android:text="#会议时间#"/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="35dp"
+                    android:src="@mipmap/go"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#ddcfcccc"/>
+
+        <LinearLayout
+            android:id="@+id/Feedback"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:background="#fff">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="意见反馈" />
+            <Button
+                android:alpha="0"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0" />
+            <TextView
+                android:alpha="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ccc"
+                android:text="#会议时间#"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="35dp"
+                android:src="@mipmap/go"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#ddcfcccc" />
+
+            <LinearLayout
+                android:id="@+id/aboutUs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="#fff">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="关于我们" />
+                <Button
+                    android:alpha="0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0" />
+                <TextView
+                    android:alpha="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ccc"
+                    android:text="#会议时间#"/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="35dp"
+                    android:src="@mipmap/go"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#ddcfcccc" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="15dp">
+                <Button
+                    android:id="@+id/ms_bt_publish"
+                    android:layout_width="400dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/style_mt_red"
+                    android:text="退出登陆"
+                    android:textColor="#fff"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.mercer.mobilemeeting.fragments.frame;
+package com.example.mercer.mobilemeeting.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,14 +13,14 @@ import com.example.mercer.mobilemeeting.R;
 /**
  * ..
  * author:liangliangattack 1364744931@.qq.com
- * Administrator on 2019/3/28 18:26.
+ * Administrator on 2019/3/31 20:13.
  */
-public class FragmentHome extends Fragment{
+public class FragmentMeetingDetail extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_meetingdetail,null);
 
         return rootView;
     }

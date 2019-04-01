@@ -1,11 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pull_refresh_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="home"/>
+        android:fadingEdge="none"
+        android:scrollbars="none"
+        ptr:ptrMode="both"
+        ptr:ptrOverScroll="false"
+        ptr:ptrShowIndicator="false">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+                <com.sivin.Banner
+                    android:id="@+id/id_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    app:banner_pointContainerLeftRightPadding="10dp"
+                    app:banner_pointTopBottomMargin="6dp"
+                    app:banner_pointLeftRightMargin="3dp"
+                    app:banner_pointGravity="right"
+                    app:banner_pointContainerBackground="#33000000"
+                    app:banner_pointDrawable="@drawable/selector_banner_point"
+                    app:banner_pointAutoPlayInterval="3"
+                    app:banner_pageChangeDuration="800"
+                    app:banner_tipTextColor="#FFFFFF"
+                    app:banner_tipTextSize="12sp"/>
 
-</LinearLayout>
+                <com.example.mercer.mobilemeeting.widget.Lamp.LampView
+                    android:id="@+id/lamp_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </com.example.mercer.mobilemeeting.widget.Lamp.LampView>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:orientation="vertical"
+                android:background="#f4f4f4"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="新闻"/>
+                <ListView
+                    android:id="@+id/gg_lv"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="0.5dp"
+                    android:layout_height="500dp"
+                    android:minHeight="500dp">
+                </ListView>
+            </LinearLayout>
+        </LinearLayout>
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+    <RelativeLayout
+        android:id="@+id/welfare_bar_view"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/mt_blue"
+        android:clickable="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="5dp">
+
+        <ImageView
+            android:id="@+id/code_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/saoyisao2"/>
+
+        <TextView
+            android:id="@+id/toobar_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="首页"
+            android:singleLine="true"
+            android:textColor="#fff" />
+    </RelativeLayout>
+</RelativeLayout>

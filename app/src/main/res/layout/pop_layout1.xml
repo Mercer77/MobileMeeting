@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:background="@mipmap/endbgs"
+      android:paddingTop="25dp"
+      android:paddingLeft="20dp">
+
+      <LinearLayout
+          android:id="@+id/tv_addfriend"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          android:orientation="horizontal">
+          <ImageView
+              android:layout_width="0dp"
+              android:layout_height="20dp"
+              android:layout_weight="1"
+              android:src="@mipmap/searchfriend"/>
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="3"
+              android:text="添加好友"
+              android:textColor="#999494" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:id="@+id/tv_saoyisao"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          android:orientation="horizontal">
+          <ImageView
+              android:layout_width="0dp"
+              android:layout_height="20dp"
+              android:layout_weight="1"
+              android:src="@mipmap/saoyisao"/>
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="3"
+              android:text="扫一扫"
+              android:textColor="#999494" />
+      </LinearLayout>
+      <LinearLayout
+          android:visibility="gone"
+          android:id="@+id/tv_fastSend_pop"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          android:orientation="horizontal">
+          <ImageView
+              android:layout_width="15dp"
+              android:layout_height="15dp"
+              android:layout_weight="1"
+              android:src="@mipmap/saoyisao2"/>
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="3"
+              android:text="快递"
+              android:textColor="#999494" />
+      </LinearLayout>
+  </LinearLayout>
+</LinearLayout>
