@@ -24,7 +24,7 @@ public class SharedPreferencesUtils {
 
     private static void throwInit() {
         if (mContext == null) {
-            throw new NullPointerException("在使用该方法前，需要init()方法，推荐init()放在application里");
+//            throw new NullPointerException("在使用该方法前，需要init()方法，推荐init()放在application里");
         }
     }
     public static boolean setUserName(String key,String name) {

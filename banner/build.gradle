@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+//    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 5
+        versionName "1.0.5"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+}
+
+//tasks.withType(JavaCompile) {
+//    options.encoding = "UTF-8"
+//}
+//
+//
+//ext {
+//
+//    bintrayRepo = 'maven'
+//    bintrayName = 'banner'
+//
+//    publishedGroupId = 'com.xiwenhec'
+//    libraryName = 'banner'
+//    artifact = 'banner'
+//    libraryVersion = '1.0.5'
+//
+//    libraryDescription = 'The AD view for android that can show some infromation by text and image and can play timing. '
+//
+//    siteUrl = 'https://github.com/xiwenhec/Banner'
+//    gitUrl = 'git@github.com:xiwenhec/Banner.git'
+//
+//    developerId = 'xiwenhec'
+//    developerName = 'sivin'
+//    developerEmail = 'xiwenhec@163.com'
+//
+//
+//
+//    licenseName = 'The Apache Software License, Version 2.0'
+//    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//    allLicenses = ["Apache-2.0"]
+//}
+//
+////apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
