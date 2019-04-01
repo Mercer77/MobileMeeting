@@ -27,13 +27,11 @@ import java.util.ArrayList;
  * author:liangliangattack 1364744931@.qq.com
  * Administrator on 2019/3/28 18:26.
  */
-public class FragmentContact extends Fragment implements SideBar
-        .OnTouchingLetterChangedListener, TextWatcher{
+public class FragmentContact extends Fragment implements SideBar.OnTouchingLetterChangedListener, TextWatcher{
 
     private ListView mListView;
     private TextView mFooterView;
     private ImageView friend_back;
-
     private ArrayList<Contact> datas = new ArrayList<>();
     private ContactAdapter mAdapter;
 
@@ -46,7 +44,7 @@ public class FragmentContact extends Fragment implements SideBar
         EditText mSearchInput = (EditText) rootView.findViewById(R.id.school_friend_member_search_input);
         mListView = (ListView) rootView.findViewById(R.id.school_friend_member);
         friend_back = rootView.findViewById(R.id.back);
-
+        initWidget();
         mSideBar.setTextView(mDialog);
         mSideBar.setOnTouchingLetterChangedListener(this);
         mSearchInput.addTextChangedListener(this);
@@ -66,7 +64,7 @@ public class FragmentContact extends Fragment implements SideBar
         mListView.addFooterView(mFooterView);
 
         //不联网 传个null
-        parser(null);
+//        parser(null);
     }
 
     private void parser(String json) {
