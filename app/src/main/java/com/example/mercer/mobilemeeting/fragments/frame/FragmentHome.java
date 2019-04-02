@@ -31,6 +31,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.mercer.mobilemeeting.R;
+import com.example.mercer.mobilemeeting.fragments.FragmentMeetingDetail;
 import com.example.mercer.mobilemeeting.pojo.BannerModel;
 import com.example.mercer.mobilemeeting.utils.DataC;
 import com.example.mercer.mobilemeeting.widget.Lamp.LampView;
@@ -97,14 +98,22 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
         gglv.setAdapter(adapter1);
         gglv.setOnItemClickListener((parent, view, position, id) -> {
 //            Intent intent = new Intent(getContext(),ActivityGG.class);
-//
-//            Bundle bundle = new Bundle();
-//            bundle.putInt("position",position);
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("position",position);
 //            intent.putExtra("data",bundle);
 //
 //            intent.putExtra("position",position);
 //            Log.e("position",position+"");
 //            startActivity(intent);
+            FragmentMeetingDetail fragmentMeetingDetail =new FragmentMeetingDetail();
+            //把位置传过去
+            fragmentMeetingDetail.setArguments(bundle);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().hide(this)
+                    .replace(R.id.main_content,fragmentMeetingDetail)
+                    .addToBackStack(null)
+                    .commit();
         });
         mDatas = new ArrayList<BannerModel>();
         //初始化mdatas图像数据

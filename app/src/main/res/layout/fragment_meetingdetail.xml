@@ -49,7 +49,7 @@
                         android:gravity="center_vertical"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/user_ll"
+                    android:id="@+id/linearLayout_Back"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
                     android:gravity="center"
@@ -57,12 +57,12 @@
                     android:background="#9fbedc">
 
                     <com.example.mercer.mobilemeeting.widget.CircleImageView
-                        android:id="@+id/user_picture"
+                        android:id="@+id/meetingPicture"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_centerInParent="true"
                         android:layout_marginTop="50dp"
-                        android:src="@mipmap/meetingpicture"
+                        android:src="@mipmap/newsimg2"
                         app:border_color="#CCCCCC"
                         app:border_width="1dp" />
 
@@ -71,6 +71,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp">
                         <TextView
+                            android:id="@+id/meetingName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="会议名称"
@@ -90,6 +91,7 @@
                                 android:src="@mipmap/meetingtime_icon"
                                 android:layout_marginRight="10dp"/>
                             <TextView
+                                android:id="@+id/meetingTime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="2019/3/2"
