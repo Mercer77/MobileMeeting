@@ -57,17 +57,16 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
     }
 
     public void initWidget() {
-
-
         // 给listView设置adapter
         mFooterView = (TextView) View.inflate(getActivity(),R.layout.item_list_contact_count,null);
         mListView.addFooterView(mFooterView);
 
         //不联网 传个null
-//        parser(null);
+        parser(null);
     }
 
     private void parser(String json) {
+        datas.clear();
         //构造数据
         Contact data = new Contact();
         data.setName("张三");

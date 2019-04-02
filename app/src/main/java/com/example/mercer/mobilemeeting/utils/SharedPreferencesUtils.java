@@ -35,7 +35,7 @@ public class SharedPreferencesUtils {
     public static String getUserName(String key) {
         throwInit();
         SharedPreferences sp = mContext.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        return sp.getString(key,"error");
+        return sp.getString(key,"111");
     }
 
     public static boolean setUserImagePath(String key,String imagepath) {

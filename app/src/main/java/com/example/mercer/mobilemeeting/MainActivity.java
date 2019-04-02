@@ -13,6 +13,7 @@ import com.example.mercer.mobilemeeting.fragments.frame.FragmentContact;
 import com.example.mercer.mobilemeeting.fragments.frame.FragmentHome;
 import com.example.mercer.mobilemeeting.fragments.frame.FragmentMessage;
 import com.example.mercer.mobilemeeting.fragments.frame.FragmentMine;
+import com.example.mercer.mobilemeeting.utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +49,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initUser();
 
         init();
+    }
+
+    private void initUser() {
+        SharedPreferencesUtils.setUserName("userId",String.valueOf(1));
+        SharedPreferencesUtils.setUserName("username",String.valueOf("李华"));
     }
 
     private void init() {
