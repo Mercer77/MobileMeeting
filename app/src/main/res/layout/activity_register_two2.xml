@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/register_title_relative"
+        android:layout_width="match_parent"
+        android:background="#fff"
+        android:layout_height="50dp" >
+
+        <Button
+            android:id="@+id/register_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:background="#fff"
+            android:text="返回" />
+
+        <TextView
+            android:id="@+id/register_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="注册" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <EditText
+                android:id="@+id/phone_number"
+                android:layout_width="match_parent"
+                android:hint="请输入你的手机号"
+                android:inputType="number"
+                android:layout_margin="20dp"
+                android:layout_height="50dp"
+                >
+            </EditText>
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/verification_code"
+                    android:inputType="number"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:hint="输入验证码"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+                <Button
+                    android:id="@+id/button_send_verification_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/mt_blue"
+                    android:text="获取验证码" />
+            </LinearLayout>
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:hint="请输入你的账号"
+                android:layout_margin="20dp"
+                android:layout_height="50dp"
+                >
+            </EditText>
+            <EditText
+                android:id="@+id/pass1"
+                android:layout_width="match_parent"
+                android:password="true"
+                android:hint="请输入密码"
+                android:layout_margin="20dp"
+                android:layout_height="50dp"
+                >
+            </EditText>
+            <EditText
+                android:id="@+id/pass2"
+                android:layout_width="match_parent"
+                android:password="true"
+                android:hint="请再次输入密码"
+                android:layout_margin="20dp"
+                android:layout_height="50dp"
+                >
+
+            </EditText>
+
+            <Button
+                android:id="@+id/reg1"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_margin="20dp"
+                android:text="注册"
+                android:background="@color/mt_blue" />
+            <TextView
+                android:id="@+id/login1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ccc"
+                android:textSize="20dp"
+                android:text="去登陆>>" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
