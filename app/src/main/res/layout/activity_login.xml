@@ -9,7 +9,6 @@
         android:layout_width="70dp"
         android:background="@mipmap/meetingpicture"
         android:contentDescription="@string/app_name"
-        android:src="@mipmap/addfriend"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"/>
 

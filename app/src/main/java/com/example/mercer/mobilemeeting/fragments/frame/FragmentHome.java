@@ -144,6 +144,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
                             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                 return false;
                             }
+
                         })
                         .into(imageView);
             }
@@ -217,7 +218,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
                         welfareBarView.setVisibility(View.GONE);
                     }
 
-                    Log.e("是否可见", "y:" + pullRefreshScrollview.getRefreshableView().getScrollY());
+//                    Log.e("是否可见", "y:" + pullRefreshScrollview.getRefreshableView().getScrollY());
                     int alpha = pullRefreshScrollview.getRefreshableView().getScrollY();
                     welfareBarView.getBackground().mutate().setAlpha(alpha <= 255 ? alpha < 10 ? 0 : alpha : 255);
                 });
