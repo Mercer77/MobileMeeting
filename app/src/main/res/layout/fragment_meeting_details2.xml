@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/chat_title_relative"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="#fff">
+
+        <ImageView
+            android:id="@+id/chat_title_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/back"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:id="@+id/chat_title_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:textSize="17sp"
+            android:text="技术会议" />
+
+        <TextView
+            android:id="@+id/chat_title_devide_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/chat_title_nick"
+            android:text="参会人员（20）"
+            />
+
+        <ImageView
+            android:id="@+id/detail_friend"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/threepoint"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp" />
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/chat_content_list"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:divider="@null"
+        android:background="#d9d9d9"
+        android:layout_above="@+id/chat_bottom_linear"
+        android:layout_below="@+id/chat_title_relative"/>
+    <LinearLayout
+        android:id="@+id/chat_bottom_linear"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="#F0F8FF">
+
+        <EditText
+            android:id="@+id/ms_details_et_message2"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="4"
+            android:hint="你的消息"
+            android:background="@drawable/chat_bottom_edit_shape">
+            <requestFocus />
+        </EditText>
+
+        <!--<EditText-->
+            <!--android:id="@+id/you"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="44dp"-->
+            <!--android:layout_weight="4"-->
+            <!--android:hint="你是谁"-->
+            <!--android:background="@drawable/chat_bottom_edit_shape">-->
+            <!--<requestFocus />-->
+        <!--</EditText>-->
+
+        <Button
+            android:id="@+id/ms_details_btn_send2"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:background="@drawable/chat_bottom_send"
+            android:text="发送"
+            android:textColor="#fff"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:src="@mipmap/yy"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@mipmap/pic"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@mipmap/takephoto"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@mipmap/redbag"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@mipmap/emoji"/>
+    </LinearLayout>
+
+</LinearLayout>
