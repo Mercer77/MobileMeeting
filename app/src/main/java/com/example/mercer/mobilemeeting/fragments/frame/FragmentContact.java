@@ -1,11 +1,15 @@
 package com.example.mercer.mobilemeeting.fragments.frame;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +18,30 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.mercer.mobilemeeting.Constant;
 import com.example.mercer.mobilemeeting.R;
 import com.example.mercer.mobilemeeting.pojo.Contact;
 import com.example.mercer.mobilemeeting.widget.Friend.ContactAdapter;
 import com.example.mercer.mobilemeeting.widget.Friend.HanziToPinyin;
 import com.example.mercer.mobilemeeting.widget.Friend.SideBar;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * ..
@@ -32,8 +53,37 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
     private ListView mListView;
     private TextView mFooterView;
     private ImageView friend_back;
-    private ArrayList<Contact> datas = new ArrayList<>();
+    private List<Contact> datas = new ArrayList<>();
     private ContactAdapter mAdapter;
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case Constant.SHOW_RSPONSE:
+                    //processBar.setVisibility(View.GONE);//设置processBar的状态
+                    //showokhttp.setText(msg.obj.toString());
+                    Log.e("===========Handler","handler");
+                    break;
+                case Constant.SHOW_RSPONSEASYNC:
+                    //processBar.setVisibility(View.GONE);//设置processBar的状态
+                    //showokhttp.setText(msg.obj.toString());
+                    Log.e("=========Handler","handler");
+
+                    break;
+                case Constant.DATA_CHANGE:
+
+                    mFooterView.setText(datas.size() + "位联系人");
+                    mAdapter.notifyDataSetChanged();
+
+                    break;
+                default:break;
+
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -67,47 +117,84 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
 
     private void parser(String json) {
         datas.clear();
-        //构造数据
-        Contact data = new Contact();
-        data.setName("张三");
-        data.setUrl("http://b-ssl.duitang.com/uploads/item/201701/18/20170118163218_28szy.jpeg");
-        data.setId(1);
-        data.setPinyin(HanziToPinyin.getPinYin(data.getName()));
-        datas.add(data);
 
-        Contact data0 = new Contact();
-        data0.setName("里斯");
-        data0.setUrl("http://b-ssl.duitang.com/uploads/item/201701/18/20170118163218_28szy.jpeg");
-        data0.setId(9);
-        data0.setPinyin(HanziToPinyin.getPinYin(data0.getName()));
-        datas.add(data0);
-
-        Contact data1 = new Contact();
-        data1.setName("老铁");
-        data1.setUrl("http://img5.duitang.com/uploads/item/201512/18/20151218165511_AQW4B.jpeg");
-        data1.setId(6);
-        data1.setPinyin(HanziToPinyin.getPinYin(data1.getName()));
-        datas.add(data1);
-
-        Contact data2 = new Contact();
-        data2.setName("王五");
-        data2.setUrl("http://img0.pconline.com.cn/pconline/1509/24/6993216_03_thumb.jpg");
-        data2.setId(7);
-        data2.setPinyin(HanziToPinyin.getPinYin(data2.getName()));
-        datas.add(data2);
-
-        Contact data3 = new Contact();
-        data3.setName("凉凉");
-        data3.setUrl("http://img.52z.com/upload/news/image/20180213/20180213062641_35687.jpg");
-        data3.setId(8);
-        data3.setPinyin(HanziToPinyin.getPinYin(data3.getName()));
-        datas.add(data3);
+        //服务器获取数据
+        getokhttp();
 
         mFooterView.setText(datas.size() + "位联系人");
         mAdapter = new ContactAdapter(mListView, datas,getActivity());
         mListView.setAdapter(mAdapter);
 
     }
+
+    private void getokhttp() {
+        //同步请求
+        new Thread(()->{
+            try {
+                OkHttpClient client = new OkHttpClient();
+                //这里也不用声明get  默认GET请求
+                //获取好友列表数据
+                Request request = new Request.Builder()
+                        .url("http://"+ Constant.IP +":8080/meeting/friend/getFriendList/1.do")
+                        .build();
+
+                Response response = client.newCall(request).execute();//得到Response 对象
+
+                if (response.isSuccessful()) {//注意response.body().string()只能调用一次
+                    //所以这样写：
+                    String responseData = response.body().string();
+                    Log.d("okhttp","response.code:"+response.code());
+                    Log.d("okhttp","response.message:"+response.message());
+                    Log.d("okhttp","res:"+responseData);
+                    Message msg = new Message();
+                    msg.what = Constant.SHOW_RSPONSE;
+                    msg.obj = "response.code:"+response.code()
+                            +"response.message:"+response.message()
+                            +"res:"+responseData;
+
+                    parseEasyJson(responseData);
+
+
+                    handler.sendMessageDelayed(msg , 2000);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+
+    }
+
+    private void parseEasyJson(String json){
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(json);
+            Log.e("",jsonArray+"");
+            for(int i = 0;i < jsonArray.length();i++){
+                //拿到第一个json对象
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                Contact contact = new Contact();
+                contact.setId(Integer.parseInt(jsonObject.getString("userId")));
+
+                //将第二次层封装到新的JSONObject
+                JSONObject friendUser = jsonObject.getJSONObject("friendUser");
+                contact.setName(friendUser.getString("name"));
+                contact.setUrl(friendUser.getString("url"));
+                contact.setPinyin(HanziToPinyin.getPinYin(friendUser.getString("name")));
+                //放进list
+                datas.add(contact);
+
+            }
+            //通知handler更新
+            handler.sendEmptyMessage(Constant.DATA_CHANGE);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
     @Override
     public void onTouchingLetterChanged(String s) {

@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * 列表适配器
@@ -40,10 +41,10 @@ import java.util.Collections;
 @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
 public class ContactAdapter extends KJAdapter<Contact> implements SectionIndexer {
 
-    private ArrayList<Contact> datas;
+    private List<Contact> datas;
     private Context mcontext;
 
-    public ContactAdapter(AbsListView view, ArrayList<Contact> mDatas, Context mcontext) {
+    public ContactAdapter(AbsListView view, List<Contact> mDatas, Context mcontext) {
         super(view, mDatas, R.layout.item_list_contact);
         datas = mDatas;
         if (datas == null) {
