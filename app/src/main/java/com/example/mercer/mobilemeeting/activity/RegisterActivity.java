@@ -126,17 +126,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         result = parseEasyJson(responseData);
 
                         if ((int) result.get("status") == 200) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(RegisterActivity.this, result.get("msg").toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-
+                            runOnUiThread(() ->
+                                    Toast.makeText(RegisterActivity.this,
+                                            result.get("msg").toString(), Toast.LENGTH_SHORT).show());
                         }
-
-
 
                     }
                 }
