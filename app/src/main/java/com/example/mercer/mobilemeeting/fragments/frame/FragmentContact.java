@@ -74,9 +74,9 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
 
                     break;
                 case Constant.DATA_CHANGE:
-
                     mFooterView.setText(datas.size() + "位联系人");
-                    mAdapter.notifyDataSetChanged();
+                    mAdapter = new ContactAdapter(mListView, datas,getActivity());
+                    mListView.setAdapter(mAdapter);
 
                     break;
                 default:break;
@@ -102,24 +102,20 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
         return rootView;
     }
 
-    private void initData() {
-
-    }
-
     public void initWidget() {
         // 给listView设置adapter
         mFooterView = (TextView) View.inflate(getActivity(),R.layout.item_list_contact_count,null);
         mListView.addFooterView(mFooterView);
 
         //不联网 传个null
-        parser(null);
+        parser();
     }
 
-    private void parser(String json) {
+    private void parser() {
         datas.clear();
 
         //服务器获取数据
-//        getokhttp();
+        getokhttp();
 
         mFooterView.setText(datas.size() + "位联系人");
         mAdapter = new ContactAdapter(mListView, datas,getActivity());
@@ -135,7 +131,7 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
                 //这里也不用声明get  默认GET请求
                 //获取好友列表数据
                 Request request = new Request.Builder()
-                        .url("http://"+ Constant.IP_liang +":8080/meeting/friend/getFriendList/1.do")
+                        .url("http://"+ Constant.IP_LINUX +":8080/MeetingSystem/friend/getFriendList/1.do")
                         .build();
 
                 Response response = client.newCall(request).execute();//得到Response 对象
@@ -170,6 +166,7 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
         try {
             jsonArray = new JSONArray(json);
             Log.e("",jsonArray+"");
+            List<Contact> lists = new ArrayList<>();
             for(int i = 0;i < jsonArray.length();i++){
                 //拿到第一个json对象
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
@@ -182,9 +179,10 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
                 contact.setUrl(friendUser.getString("url"));
                 contact.setPinyin(HanziToPinyin.getPinYin(friendUser.getString("name")));
                 //放进list
-                datas.add(contact);
+                lists.add(contact);
 
             }
+            datas.addAll(lists);
             //通知handler更新
             handler.sendEmptyMessage(Constant.DATA_CHANGE);
 

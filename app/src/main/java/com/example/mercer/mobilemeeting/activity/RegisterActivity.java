@@ -42,8 +42,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @BindView(R.id.login1) TextView t_toLogin;
     @BindView(R.id.register_back) Button b_back;
 
-    public static final MediaType JSON = MediaType.parse("application/json");
-    private Map<String, Object> result;
+    private Map<String, Object> result;//请求结果
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,27 +52,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         initListener();
     }
 
-    public void initListener() {
-        b_back.setOnClickListener(this);
-        b_reg.setOnClickListener(this);
-        t_toLogin.setOnClickListener(this);
-        b_sendVerificationCode.setOnClickListener(this);
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.register_back:
-                finish();
-                break;
-            case R.id.reg1:
-                register();
-                break;
-            case R.id.button_send_verification_code:
-                break;
-            case R.id.login1:
-                finish();
-                break;
+            case R.id.register_back: finish(); break;
+            case R.id.reg1: register();break;
+            case R.id.button_send_verification_code: break;
+            case R.id.login1: finish();break;
         }
     }
 
@@ -84,24 +69,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String name = t_username.getText().toString().trim();
 
         if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(password)) {
-
-            Toast.makeText(RegisterActivity.this, "用户名或者密码不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "用户名或者密码不能为空", Toast.LENGTH_SHORT).show();
         } else if (!password.equals(passwordcf)) {
-            Toast.makeText(RegisterActivity.this, "密码不一致", Toast.LENGTH_SHORT).show();
-        } else {
+            Toast.makeText(this, "密码不一致", Toast.LENGTH_SHORT).show();
+        }
+        else {
             OkHttpClient okHttpClient = new OkHttpClient();
             result = new HashMap<>();
+
             RequestBody requestBody = new FormBody.Builder()
                     .add("phone", phone)
                     .add("password", password)
                     .add("name", name)
                     .build();
             Request request = new Request.Builder()
-                    .url("http://" + Constant.IPMercer2 + ":8080/meeting/user/register.do")
+                    .url("http://"+Constant.IP_LINUX+":8080/MeetingSystem/user/register.do")
                     .post(requestBody)
                     .build();
             Call call = okHttpClient.newCall(request);
+
+
             call.enqueue(new Callback() {
+
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.d("okhttp", "失败");
@@ -110,6 +99,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+                    Log.e("response",""+response.toString());
                     if (response.isSuccessful()) {
                         String responseData = response.body().string();
                         Log.d("okhttp", "response.code:" + response.code());
@@ -125,6 +115,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                     }
                 }
+
+
             });
 
         }
@@ -138,13 +130,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             result.put("msg", jsonObject.getString("msg"));
             System.out.print(result.get("status"));
 
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return result;
+    }
 
+    public void initListener() {
+        b_back.setOnClickListener(this);
+        b_reg.setOnClickListener(this);
+        t_toLogin.setOnClickListener(this);
+        b_sendVerificationCode.setOnClickListener(this);
     }
 
 }

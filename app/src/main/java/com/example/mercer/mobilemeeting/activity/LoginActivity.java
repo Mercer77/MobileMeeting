@@ -34,16 +34,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    @BindView(R.id.account)
-    TextView t_account;
-    @BindView(R.id.password)
-    TextView t_password;
-    @BindView(R.id.login)
-    Button login;
-    @BindView(R.id.register)
-    Button register;
+    @BindView(R.id.account) TextView t_account;
+    @BindView(R.id.password) TextView t_password;
+    @BindView(R.id.login) Button login;
+    @BindView(R.id.register) Button register;
+
     private Map<String, Object> result;
-    public static final MediaType JSON = MediaType.parse("application/json");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,10 +69,10 @@ public class LoginActivity extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient();
         Gson gson = new Gson();
         String data = gson.toJson(map);
-        RequestBody requestBody = RequestBody.create(JSON, data);
+        RequestBody requestBody = RequestBody.create(Constant.JSON, data);
 
         Request request = new Request.Builder()
-                .url("http://" + Constant.IP_liang + ":8080/meeting/user/login.do")
+                .url("http://" + Constant.IP_LINUX + ":8080/MeetingSystem/user/login.do")
                 .post(requestBody)
                 .build();
 
