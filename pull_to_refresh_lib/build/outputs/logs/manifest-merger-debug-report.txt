@@ -1,39 +1,39 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
+ADDED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:1-11:12
 	package
-		ADDED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:3:5-49
-		INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
-		INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		ADDED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:3:5-49
+		INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
 	android:versionName
-		ADDED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:5:5-30
-		INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
-		INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		ADDED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:5:5-30
+		INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:11-69
+		ADDED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:2:11-69
 	android:versionCode
-		ADDED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:4:5-31
-		INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
-		INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		ADDED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:4:5-31
+		INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
 application
-ADDED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:9:5-20
+ADDED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml:9:5-20
 uses-sdk
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
-INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
-		ADDED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
-		INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		ADDED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
-		ADDED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
-		INJECTED from D:\STUDY\AndroidProject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		ADDED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml
+		INJECTED from H:\Spaces\Myandroidstudioproject\MobileMeeting\pull_to_refresh_lib\src\main\AndroidManifest.xml

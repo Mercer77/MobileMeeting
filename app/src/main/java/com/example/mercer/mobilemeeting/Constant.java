@@ -7,7 +7,7 @@ package com.example.mercer.mobilemeeting;
  */
 public class Constant {
     public static final String IP2 = "localhost";
-    public static final String IP = "192.168.44.120";
+    public static final String IP_liang = "192.168.44.120";
     public static final String IPMercer = "10.113.24.128";
     public static final String IPMercer2 = "10.151.6.131";
 

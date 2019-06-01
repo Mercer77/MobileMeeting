@@ -1,8 +1,7 @@
-package com.example.mercer.mobilemeeting;
+package com.example.mercer.mobilemeeting.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -12,11 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mercer.mobilemeeting.pojo.Contact;
-import com.example.mercer.mobilemeeting.widget.Friend.HanziToPinyin;
+import com.example.mercer.mobilemeeting.Constant;
+import com.example.mercer.mobilemeeting.MainActivity;
+import com.example.mercer.mobilemeeting.R;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,7 +28,6 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -53,20 +51,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         result = new HashMap<>();
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
-                startActivity(intent);
-            }
+        register.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+            startActivity(intent);
         });
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-
-            }
-        });
+        login.setOnClickListener(view -> login());
     }
 
     private void login() {
@@ -87,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         RequestBody requestBody = RequestBody.create(JSON, data);
 
         Request request = new Request.Builder()
-                .url("http://" + Constant.IPMercer2 + ":8080/meeting/user/login.do")
+                .url("http://" + Constant.IP_liang + ":8080/meeting/user/login.do")
                 .post(requestBody)
                 .build();
 
@@ -105,11 +94,8 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("okhttp", "response.code:" + response.code());
                     Log.d("okhttp", "response.message:" + response.message());
                     Log.d("okhttp", "res:" + responseData);
-//                    Message msg = new Message();
-//                    msg.what = Constant.SHOW_RSPONSE;
-//                    msg.obj = "response.code:"+response.code()
-//                            +"response.message:"+response.message()
-//                            +"res:"+responseData;
+
+                    //也可以使用Handler发送消息
 
                     result = parseEasyJson(responseData);
                     if ((int)result.get("status")==200) {
@@ -117,12 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
 
                     } else{
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(LoginActivity.this, result.get("msg").toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(LoginActivity.this, result.get("msg").toString(), Toast.LENGTH_SHORT).show());
                     }
 
 
@@ -135,7 +116,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * 将json封装至HashMap
+     * @param json
+     * @return
+     */
     public Map<String, Object> parseEasyJson(String json) {
         Map<String, Object> result = new HashMap<>();
         try {

@@ -135,7 +135,7 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
                 //这里也不用声明get  默认GET请求
                 //获取好友列表数据
                 Request request = new Request.Builder()
-                        .url("http://"+ Constant.IP +":8080/meeting/friend/getFriendList/1.do")
+                        .url("http://"+ Constant.IP_liang +":8080/meeting/friend/getFriendList/1.do")
                         .build();
 
                 Response response = client.newCall(request).execute();//得到Response 对象
