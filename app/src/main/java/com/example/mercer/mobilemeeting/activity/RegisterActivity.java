@@ -123,7 +123,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         Log.d("okhttp", "response.code:" + response.code());
                         Log.d("okhttp", "response.message:" + response.message());
                         Log.d("okhttp", "res:" + responseData);
-
                         result = parseEasyJson(responseData);
 
                         if ((int) result.get("status") == 200) {
