@@ -32,24 +32,16 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
-    @BindView(R.id.phone_number)
-    TextView t_phone;
-    @BindView(R.id.verification_code)
-    TextView t_verification_code;
-    @BindView(R.id.username)
-    TextView t_username;
-    @BindView(R.id.pass1)
-    TextView t_pass1;
-    @BindView(R.id.pass2)
-    TextView t_pass2;
-    @BindView(R.id.button_send_verification_code)
-    Button b_sendVerificationCode;
-    @BindView(R.id.reg1)
-    Button b_reg;
-    @BindView(R.id.login1)
-    TextView t_toLogin;
-    @BindView(R.id.register_back)
-    Button b_back;
+    @BindView(R.id.phone_number) TextView t_phone;
+    @BindView(R.id.verification_code) TextView t_verification_code;
+    @BindView(R.id.username) TextView t_username;
+    @BindView(R.id.pass1) TextView t_pass1;
+    @BindView(R.id.pass2) TextView t_pass2;
+    @BindView(R.id.button_send_verification_code) Button b_sendVerificationCode;
+    @BindView(R.id.reg1) Button b_reg;
+    @BindView(R.id.login1) TextView t_toLogin;
+    @BindView(R.id.register_back) Button b_back;
+
     public static final MediaType JSON = MediaType.parse("application/json");
     private Map<String, Object> result;
 
