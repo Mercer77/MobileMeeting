@@ -13,6 +13,7 @@ import com.example.mercer.mobilemeeting.R;
 import com.example.mercer.mobilemeeting.dao.MsgDao;
 import com.example.mercer.mobilemeeting.pojo.MessageEntity;
 import com.example.mercer.mobilemeeting.pojo.User;
+import com.example.mercer.mobilemeeting.utils.PictureUtil;
 import com.example.mercer.mobilemeeting.utils.SharedPreferencesUtils;
 
 import java.util.List;
@@ -24,13 +25,13 @@ import java.util.List;
 
 public class LoadMoreWrapperMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<MessageEntity> dataList;
+    private List<MessageEntity> messageEsays;
     private Context mcontext;
     private OnItemClickListener mListener;
 
     public LoadMoreWrapperMessageAdapter(Context mcontext , List<MessageEntity> dataList , OnItemClickListener mListener) {
         this.mcontext = mcontext;
-        this.dataList = dataList;
+        this.messageEsays = dataList;
         this.mListener =  mListener;
     }
 
@@ -44,37 +45,28 @@ public class LoadMoreWrapperMessageAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder) holder;
-        MessageEntity messageEsay = (MessageEntity) dataList.get(position);
-//        if(position == 0){//设置系统通知的头像
-//            recyclerViewHolder.ivpicture.setImageResource(R.drawable.ic_launcher);
-//        }
+
+        //拿到最新信息
+        MessageEntity messageEasy = messageEsays.get(position);
+        //拿到是谁
+        int who = getWho(position);
+
+        //需要查询出发送者的信息
         MsgDao msgDao1 = new MsgDao(mcontext);
-        List<User> users = msgDao1.queryUser
-                (Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
-        //获得当前用户的头像
-        recyclerViewHolder.ivpicture.setImageResource(getPicture2());
+        List<User> users = msgDao1.queryUser(who);
+
+        recyclerViewHolder.ivpicture.setImageResource(PictureUtil.getThatPicture(SharedPreferencesUtils.getUserName("userId")));
         recyclerViewHolder.tvtitle.setText(String.valueOf(users.get(0).getName()));
-        recyclerViewHolder.tvtime.setText(String.valueOf(messageEsay.getTime()));
-        recyclerViewHolder.tvcontent.setText(messageEsay.getMessage());
+        recyclerViewHolder.tvtime.setText(String.valueOf(messageEasy.getTime()));
+        recyclerViewHolder.tvcontent.setText(messageEasy.getMessage());
 
-        recyclerViewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onClick(position);
-            }
-        });
-    }
-
-    //设置对方的头像
-    private int getPicture2() {
-        if(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")) == 1){
-            return R.mipmap.lihua0;
-        }return R.mipmap.lihua1;
+        //回调
+        recyclerViewHolder.item.setOnClickListener(v -> mListener.onClick(position));
     }
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return messageEsays.size();
     }
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -93,6 +85,14 @@ public class LoadMoreWrapperMessageAdapter extends RecyclerView.Adapter<Recycler
             tvtime = (TextView) itemView.findViewById(R.id.ms_tv_time);
             ivpicture = (ImageView) itemView.findViewById(R.id.ms_iv_picture);
         }
+    }
+
+    //判断对方是谁 需要根据是否是到达的信息和from 、to来判断
+    private int getWho(int position) {
+        int isComeMsg = messageEsays.get(position).isComeMsg();
+        int to = messageEsays.get(position).getTo();
+        int from = messageEsays.get(position).getFrom();
+        return isComeMsg == 1 ? from : to;
     }
 
     public interface OnItemClickListener{

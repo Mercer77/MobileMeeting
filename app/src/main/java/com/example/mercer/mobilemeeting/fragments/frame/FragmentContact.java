@@ -119,7 +119,7 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
         datas.clear();
 
         //服务器获取数据
-        getokhttp();
+//        getokhttp();
 
         mFooterView.setText(datas.size() + "位联系人");
         mAdapter = new ContactAdapter(mListView, datas,getActivity());

@@ -56,12 +56,8 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
     private TextView chat_title_nick;
     private ImageView chat_title_back;
     private ImageView detail_friend;
-//    private EditText you;
 
-    private int that1 = 0;//对方的头像
-    private Bitmap this1 = null;//自己的头像
-
-    private List<MessageEntity> messageEntities = new ArrayList<MessageEntity>();
+    private List<MessageEntity> messageEntities = new ArrayList<>();
     private MyMsgAdapter myMsgAdapter;
     private ListView chat_content_list;
 
@@ -110,56 +106,35 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
         chat_title_back.setOnClickListener(this);
         detail_friend = view.findViewById(R.id.detail_friend);
         detail_friend.setOnClickListener(this);
-//        you = view.findViewById(R.id.you);
-
-        MsgDao msgDao1 = new MsgDao(getActivity());
-        List<User> users = msgDao1.queryUser
-                (Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
-        chat_title_nick.setText(users.get(0).getName());
 
         pos = getArguments().getInt("item");
         who = getArguments().getInt("who");
-        that1 = getArguments().getInt("that1");
-        this1 = getArguments().getParcelable("this1");
+
+        MsgDao msgDao1 = new MsgDao(getActivity());
+        List<User> users = msgDao1.queryUser(who);
+        chat_title_nick.setText(users.get(0).getName());
+
         //msg需要初始化之前的消息 将以前的聊天数据进行回显
         //请求后台数据
-        getHistoryMessageData(pos);
+        getHistoryMessageData();
 
-        myMsgAdapter = new MyMsgAdapter(getActivity(),messageEntities , that1 , this1 , chat_title_nick.getText().toString());
+        myMsgAdapter = new MyMsgAdapter(getActivity(),messageEntities , chat_title_nick.getText().toString());
         chat_content_list.setAdapter(myMsgAdapter);
         chat_content_list.setSelection(messageEntities.size()-1);
 
         return view;
     }
 
-    //模拟数据
-    private void getHistoryMessageData(int position) {
-        //根据from和to分拣 排序
-        MsgDao msgDao = new MsgDao((MainActivity)getActivity());
-
-        messageEntities = msgDao.getHistoryMessage(getWho());
-        Log.e("Details3get",""+messageEntities.size());
-
-    }
-
-    public int getWho(){
-//        int people = -1;
-//        MessageEntity messageEntity = new MsgDao(getActivity()).getMessage().get(0);
-//        if(messageEntity != null) {
-//            if (messageEntity.isComeMsg() == 0) {
-//                people = messageEntity.getTo();
-//            } else if (messageEntity.isComeMsg() == 1) {
-//                people = messageEntity.getFrom();
-//            }
-//        }
-//        return people;
-        return who;
+    //获取数据
+    private void getHistoryMessageData() {
+        MsgDao msgDao = new MsgDao(getActivity());
+        messageEntities = msgDao.getHistoryMessage(who);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("FragmentMS","onCreate");
+        Log.e("FragmentDetails","onCreate");
         msgDao = new MsgDao(getActivity());
 
         //开启SocketService
@@ -210,14 +185,12 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
                 //封装json数据上传服务器
                 JSONObject json = new JSONObject();
                 try {
-                    json.put("to",getWho());
+                    json.put("to",who);
                     json.put("msg",message.getText().toString());
-//                    json.put("from",1);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-//                writer.write(message.getText().toString()+"\n");
                 writer.write(json.toString()+"\n");
                 Log.e(null,"发出json:"+json.toString());
                 //flush写入缓存里面的数据
@@ -229,8 +202,8 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
                 messagesend.setTime(TimeUtil.getTime(System.currentTimeMillis()));
                 //这个from值需要确认................
                 messagesend.setFrom(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
-                messagesend.setTo(getWho());
-                Log.e("发送位置",""+getWho());
+                messagesend.setTo(who);
+                Log.e("发送位置",""+who);
                 messagesend.setMessage(message.getText().toString());
                 //将自己发送出去的消息存到数据库中
                 msgDao.addMessage(messagesend);
@@ -240,7 +213,6 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
                 messageEntities.add(messagesend);
 
                 Log.e("message的大小1：",String.valueOf(messageEntities.size()));
-//                String str = "\n"+"我: "+message.getText()+getTime(System.currentTimeMillis())+"\n";
                 handler.obtainMessage(0,messagesend).sendToTarget();
             } catch (Exception e) {
                 e.printStackTrace();

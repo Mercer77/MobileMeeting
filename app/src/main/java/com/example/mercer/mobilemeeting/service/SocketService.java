@@ -78,37 +78,34 @@ public class SocketService extends Service {
 
     //初始化
     private void initScoket() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    boolean isReceiving = true;
-//                    socket = new Socket("192.168.1.7",1234);
-                    socket = new Socket("192.168.137.200",1234);
-                    Log.e("sss","后台连接");
-                    //这个时候soocket初始化完成 连接完成
-                    isConnectSocket = true;
+        new Thread(() -> {
+            try {
+                boolean isReceiving = true;
+                    socket = new Socket("192.168.44.120",520);
+//                socket = new Socket("192.168.43.133",520);
+                Log.e("sss","后台连接");
+                //这个时候soocket初始化完成 连接完成
+                isConnectSocket = true;
 
-                    //获取socket的输入流
-                    reader = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
-                    writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"));
+                //获取socket的输入流
+                reader = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+                writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"));
 
-                    //接受服务端的数据
-                    while (isReceiving){
-                        boolean isready = reader.ready();
-                        if(isready){
-                            Log.e("服务传来的数据到达：","服务传来的数据到达");
+                //接受服务端的数据
+                while (isReceiving){
+                    boolean isready = reader.ready();
+                    if(isready){
+                        Log.e("服务传来的数据到达：","服务传来的数据到达");
 
-                            myServiceCallBack.onDataChanged(reader.readLine());
-                        }
-                        Thread.sleep(200);
+                        myServiceCallBack.onDataChanged(reader.readLine());
                     }
-                    writer.close();
-                    reader.close();
-                    socket.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    Thread.sleep(200);
                 }
+                writer.close();
+                reader.close();
+                socket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }).start();
     }

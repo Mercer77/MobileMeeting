@@ -56,7 +56,6 @@
 	            android:layout_toRightOf="@id/tv_chatcontent"
 	            android:textSize="10sp"
 				android:text="我"
-	            android:gravity="center"
-	            android:textColor="#fff"/>
+	            android:gravity="center"/>
 	    </RelativeLayout>
 </LinearLayout>

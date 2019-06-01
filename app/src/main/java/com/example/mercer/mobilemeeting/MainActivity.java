@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUser() {
-        SharedPreferencesUtils.setUserName("userId",String.valueOf(1));
-        SharedPreferencesUtils.setUserName("username",String.valueOf("李华"));
+//        SharedPreferencesUtils.setUserName("userId",String.valueOf(0));
+//        SharedPreferencesUtils.setUserName("username",String.valueOf("oppo"));
     }
 
     private void init() {

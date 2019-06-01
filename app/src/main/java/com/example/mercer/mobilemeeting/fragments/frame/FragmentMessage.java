@@ -66,7 +66,7 @@ public class FragmentMessage extends Fragment implements ServiceConnection {
     @BindView(R.id.swipe_refresh_message_layout) SwipeRefreshLayout swipeRefreshLayout;
 
     private LoadMoreWrapper loadMoreWrapper;
-    private List<MessageEntity> messageEsays = new ArrayList<MessageEntity>();
+    private List<MessageEntity> messageEsays = new ArrayList<>();
     private LoadMoreWrapperMessageAdapter loadMoreWrapperAdapter;
 
     private Handler handler = new Handler(){
@@ -149,10 +149,7 @@ public class FragmentMessage extends Fragment implements ServiceConnection {
         // 设置下拉刷新
         swipeRefreshLayout.setOnRefreshListener(() -> {
             // 刷新数据
-            //请求数据刷新
-//                msgs.clear();
             getData();
-            loadMoreWrapper.notifyDataSetChanged();
 
             // 延时1s关闭下拉刷新
             swipeRefreshLayout.postDelayed(() -> {
@@ -161,6 +158,13 @@ public class FragmentMessage extends Fragment implements ServiceConnection {
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }, 1000);
+
+            Log.e("刷新",messageEsays.get(0).getMessage());
+            loadMoreWrapper.notifyDataSetChanged();
+
+            loadMoreWrapperAdapter.notifyDataSetChanged();
+            loadMoreWrapper.notifyDataSetChanged();
+
         });
 
         // 设置加载更多监听
@@ -220,64 +224,37 @@ public class FragmentMessage extends Fragment implements ServiceConnection {
                     );
                     Bundle bundle = new Bundle();
                     bundle.putInt("item",position);
-                    bundle.putInt("who",messageEsays.get(position).getFrom());
-                    //Toast.makeText(getContext(), messageEsays.get(position).toString(), Toast.LENGTH_SHORT).show();
-                    bundle.putInt("that1",getPicture2());
-                    bundle.putParcelable("this1",getPicture());
+                    bundle.putInt("who",getWho(position));
                     fragmentMmessageDetails3.setArguments(bundle);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.main_content,fragmentMmessageDetails3)
                             .hide(this)
                             .addToBackStack(null)
                             .commit();
-                });
+        });
     }
 
-    //设置对方的头像
-    private int getPicture2() {
-        if(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")) == 1){
-            return R.mipmap.lihua0;
-        }return R.mipmap.lihua1;
-    }
-
-    //设置自己的头像
-    private Bitmap getPicture() {
-        String userImagePath = SharedPreferencesUtils.getUserImagePath("userimage");
-        Bitmap bitmap = null;
-        if(!(userImagePath.equals("error"))) {
-            BitmapFactory.Options opts = new BitmapFactory.Options();
-            bitmap =  BitmapFactory.decodeFile(userImagePath, opts);
-        }
-        return bitmap;
+    //判断对方是谁 需要根据是否是到达的信息和from 、to来判断
+    private int getWho(int position) {
+        int isComeMsg = messageEsays.get(position).isComeMsg();
+        int to = messageEsays.get(position).getTo();
+        int from = messageEsays.get(position).getFrom();
+        return isComeMsg == 1 ? from : to;
     }
 
     private void getData() {
         messageEsays.clear();
         //创造模拟数据
 //        createData();
+
 //        数据库中查询数据
         MsgDao msgDao = new MsgDao(getActivity());
-//        msgDao.addUser(new User(0,
-//                "李华",
-//                R.mipmap.lihua0,
-//                "我很帅",
-//                TimeUtil.getTime(System.currentTimeMillis())));
-//        msgDao.addUser(new User(1,
-//                "张三",
-//                R.mipmap.lihua0,
-//                "我更加帅",
-//                TimeUtil.getTime(System.currentTimeMillis())));
-        List list = null;
-        if (SharedPreferencesUtils.getUserName("userId") != null || SharedPreferencesUtils.getUserName("userId") != ""){
-            list = msgDao.getSimpleHistoryMessage(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
-        }
-        for (int flag = 0; flag < list.size(); flag++) {
-            MessageEntity message = (MessageEntity) list.get(flag);
-            if (message.getFrom() == Integer.parseInt(SharedPreferencesUtils.getUserName("userId"))) {
-                message.setFrom(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
-            }
-            messageEsays.add(message);
-        }
+//        messageEsays  = msgDao.getSimpleHistoryMessage
+// (Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
+        //这里不能这样写 因为recyclerView的观察者首先确认观察对象 也就是观察数据  数据控制住了就能更新UI
+        //而 这里Observer直接锁定了后面产生的临时对象 并没有观察messageEsays 造成数据刷新失败
+        messageEsays.addAll(msgDao.getSimpleHistoryMessage(Integer.parseInt(SharedPreferencesUtils.getUserName("userId"))));
+
         handler.sendEmptyMessage(0);
 
     }
@@ -322,6 +299,17 @@ public class FragmentMessage extends Fragment implements ServiceConnection {
         lastmessage2.setComeMsg(isCome(0));
         lastmessage2.setMessage("我是0");
         lastMessage(lastmessage2);
+
+        msgDao.addUser(new User(0,
+                "oppo",
+                R.mipmap.oppo,
+                "宇宙无敌超级大帅哥",
+                TimeUtil.getTime(System.currentTimeMillis())));
+        msgDao.addUser(new User(1,
+                "小米",
+                R.mipmap.xiaomi,
+                "我不如你",
+                TimeUtil.getTime(System.currentTimeMillis())));
     }
 
     private void lastMessage(MessageEntity messageEntity) {

@@ -33,8 +33,7 @@
 			android:layout_height="52dp"
 			android:layout_alignParentLeft="true"
 			android:layout_alignParentTop="true"
-			android:clickable="true"
-			android:src="@mipmap/lihua0"></com.example.mercer.mobilemeeting.widget.CircleImageView>
+			android:clickable="true"></com.example.mercer.mobilemeeting.widget.CircleImageView>
 
 		<TextView
 			android:id="@+id/tv_chatcontent"
@@ -55,8 +54,7 @@
 			android:layout_toRightOf="@id/tv_chatcontent"
 			android:textSize="10sp"
 			android:text="他"
-			android:gravity="center"
-			android:textColor="#fff"/>
+			android:gravity="center"/>
 
 	</RelativeLayout>
 	    
