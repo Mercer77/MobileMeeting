@@ -1,5 +1,6 @@
 package com.example.mercer.mobilemeeting.fragments.frame;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,6 +9,8 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,22 +33,35 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.mercer.mobilemeeting.Constant;
 import com.example.mercer.mobilemeeting.R;
 import com.example.mercer.mobilemeeting.fragments.FragmentMeetingDetail;
 import com.example.mercer.mobilemeeting.pojo.BannerModel;
+import com.example.mercer.mobilemeeting.pojo.Contact;
+import com.example.mercer.mobilemeeting.pojo.Meeting;
 import com.example.mercer.mobilemeeting.utils.DataC;
+import com.example.mercer.mobilemeeting.widget.Friend.ContactAdapter;
+import com.example.mercer.mobilemeeting.widget.Friend.HanziToPinyin;
 import com.example.mercer.mobilemeeting.widget.Lamp.LampView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.sivin.Banner;
 import com.sivin.BannerAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * ..
@@ -67,17 +83,26 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
     @BindView(R.id.id_banner)
     Banner banner;
     List<BannerModel> mDatas;
-    //    @BindView(R.id.activity)
-//    TextView activity;
-//    @BindView(R.id.shop)
-//    TextView shop;
-//    @BindView(R.id.fastsend)
-//    TextView fast;
-//    @BindView(R.id.news)
-//    TextView news;
-    private int mYear, mMonth, mDay, mWay, mHour, mMinute;
     @BindView(R.id.gg_lv)
     ListView gglv;
+
+    List<Meeting> meetings = new ArrayList<>();
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case Constant.DATA_CHANGE:
+                    MyLVAdapter adapter1 = new MyLVAdapter();
+                    gglv.setAdapter(adapter1);
+                    break;
+                default:break;
+
+            }
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +121,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
 
         MyLVAdapter adapter1 = new MyLVAdapter();
         gglv.setAdapter(adapter1);
+        getMeetingData();
+
         gglv.setOnItemClickListener((parent, view, position, id) -> {
 //            Intent intent = new Intent(getContext(),ActivityGG.class);
 
@@ -115,7 +142,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
                     .addToBackStack(null)
                     .commit();
         });
-        mDatas = new ArrayList<BannerModel>();
+        mDatas = new ArrayList<>();
         //初始化mdatas图像数据
         getData();
         //绑定banner适配器
@@ -152,34 +179,31 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
         };
         banner.setBannerAdapter(adapter);
 
-        banner.setOnBannerItemClickListener(new Banner.OnBannerItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent();
-                switch (position) {
-                    default:
-                        break;
-                    case 0:
+        banner.setOnBannerItemClickListener(position -> {
+            Intent intent = new Intent();
+            switch (position) {
+                default:
+                    break;
+                case 0:
 //                        intent.setClass(getContext() , WebViewActivity.class);
 //                        intent.putExtra("url","http://www.baidu.com/");
 //                        startActivity(intent);
-                        Toast.makeText(getContext(), "欢迎使用智宿app", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
+                    Toast.makeText(getContext(), "欢迎使用智宿app", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
 //                        intent.setClass(getContext() , CarQuesActivity.class);
 //                        startActivity(intent);
-                        break;
-                    case 2:
+                    break;
+                case 2:
 //                        intent.setClass(getContext() , WebViewActivity.class);
 //                        intent.putExtra("url","http://www.hjenglish.com/");
 //                        startActivity(intent);
 //                        intent.setClass(getContext() , AudioActivity.class);
 //                        startActivity(intent);
-                        break;
+                    break;
 //                    case 3:
 //                        Toast.makeText(getActivity(), "banner", Toast.LENGTH_SHORT).show();
 //                        break;
-                }
             }
         });
         //实现网络加载数据更新
@@ -187,6 +211,84 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
         //banner.notifyDataHasChanged();
 
         return rootview;
+    }
+
+    private void getMeetingData() {
+        meetings.clear();
+        //同步请求
+        new Thread(()->{
+            try {
+                OkHttpClient client = new OkHttpClient();
+                //这里也不用声明get  默认GET请求
+                //获取会议列表数据
+                Request request = new Request.Builder()
+                        .url("http://"+ Constant.IP_LINUX +":8080/MeetingSystem/meeting/queryAllMeetings/1.do")
+                        .build();
+
+                Response response = client.newCall(request).execute();//得到Response 对象
+
+                if (response.isSuccessful()) {//注意response.body().string()只能调用一次
+                    //所以这样写：
+                    String responseData = response.body().string();
+                    Log.d("okhttp","response.code:"+response.code());
+                    Log.d("okhttp","response.message:"+response.message());
+                    Log.d("okhttp","res:"+responseData);
+                    Message msg = new Message();
+                    msg.what = Constant.SHOW_RSPONSE;
+                    msg.obj = "response.code:"+response.code()
+                            +"response.message:"+response.message()
+                            +"res:"+responseData;
+
+                    parseEasyJson(responseData);
+
+
+                    handler.sendMessageDelayed(msg , 2000);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+
+    }
+
+    private void parseEasyJson(String json){
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(json);
+            Log.e("",jsonArray+"");
+            List<Meeting> lists = new ArrayList<>();
+            for(int i = 0;i < jsonArray.length();i++){
+                //拿到第一个json对象
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                Meeting meeting = new Meeting();
+                meeting.setMeetingTitle(jsonObject.getString("meetingTitle"));
+                meeting.setMeetingContent(jsonObject.getString("meetingContent"));
+                meeting.setCreateTime(jsonObject.getString("createTime"));
+                meeting.setTime(jsonObject.getString("time"));
+                meeting.setPath(jsonObject.getString("path"));
+                meeting.setAddress(jsonObject.getString("address"));
+
+                //将第二次层封装到新的JSONObject
+//                JSONObject friendUser = jsonObject.getJSONObject("friendUser");
+//                meeting.setName(friendUser.getString("name"));
+//                meeting.setUrl(friendUser.getString("url"));
+//                meeting.setPinyin(HanziToPinyin.getPinYin(friendUser.getString("name")));
+
+                //放进list
+
+
+                lists.add(meeting);
+
+            }
+            meetings.addAll(lists);
+            //通知handler更新
+            handler.sendEmptyMessage(Constant.DATA_CHANGE);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -207,11 +309,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
     private void initPullRefreshScrollview() {
         welfareBarView.getBackground().mutate().setAlpha(0);
         welfareBarView.setVisibility(View.GONE);
-        Log.e("是否可见", "gone");
+//        Log.e("是否可见", "gone");
         //下拉刷新
-        pullRefreshScrollview.getRefreshableView().
-                getViewTreeObserver().
-                addOnScrollChangedListener(() -> {
+        pullRefreshScrollview.getRefreshableView()
+                .getViewTreeObserver()
+                .addOnScrollChangedListener(() -> {
                     if ((pullRefreshScrollview.getRefreshableView().getScrollY()) > 1) {
                         welfareBarView.setVisibility(View.VISIBLE);
                     } else {
@@ -222,16 +324,6 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
                     int alpha = pullRefreshScrollview.getRefreshableView().getScrollY();
                     welfareBarView.getBackground().mutate().setAlpha(alpha <= 255 ? alpha < 10 ? 0 : alpha : 255);
                 });
-    }
-
-    public void time() {
-        Calendar c = Calendar.getInstance();//
-        mYear = c.get(Calendar.YEAR); // 获取当前年份
-        mMonth = c.get(Calendar.MONTH) + 1;// 获取当前月份
-        mDay = c.get(Calendar.DAY_OF_MONTH);// 获取当日期
-        mWay = c.get(Calendar.DAY_OF_WEEK);// 获取当前日期的星期
-        mHour = c.get(Calendar.HOUR_OF_DAY);//时
-        mMinute = c.get(Calendar.MINUTE);//分
     }
 
     @Override
@@ -262,7 +354,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
 
         @Override
         public int getCount() {
-            return 6;
+            return meetings.size();
         }
 
         @Override
@@ -290,12 +382,12 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
             TextView content = rootview.findViewById(R.id.simple_content2);
             TextView time = rootview.findViewById(R.id.simple_time2);
             ImageView imageView = rootview.findViewById(R.id.imageview002);
-            Log.e("________", "&*********" + i);
-            title.setText(DataC.title1[i]);
-            content.setText(DataC.content1[i]);
-            time.setText(DataC.date[i]);
+
+            Meeting meeting = meetings.get(i);
+            title.setText(meeting.getMeetingTitle());
+            content.setText(meeting.getMeetingContent());
+            time.setText(meeting.getCreateTime());
             imageView.setImageResource(DataC.picture[i]);
-//            imageView.setImageResource(R.drawable.news1);
 
 
             return rootview;
@@ -306,30 +398,33 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
         mDatas.clear();
         BannerModel model = null;
         model = new BannerModel();
-        //天猫
-        model.setImageUrl("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1620743413,3027851616&fm=26&gp=0.jpg");
-        model.setTips("1号会议室");
+        model.setImageUrl
+                ("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1903820104,1575044093&fm=26&gp=0.jpg");
+        model.setTips("大气上档次");
         mDatas.add(model);
 
-        //驾考
         model = new BannerModel();
-        model.setImageUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553508929783&di=df17ba9a0bab01fcca07f579cfd22530&imgtype=0&src=http%3A%2F%2Fimg105.job1001.com%2Fupload%2Falbum%2F2014-08-22%2F1408686171-7QHFFF7_960_600.jpg");
-        model.setTips("2号会议室");
+        model.setImageUrl("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2599773408,192690803&fm=26&gp=0.jpg");
+        model.setTips("温馨舒适");
         mDatas.add(model);
 
-        //学习英语
         model = new BannerModel();
-        model.setImageUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554103693&di=5a1365b3759f5ad1163e7efd243e3427&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.yw2005.com%2Fbaike%2Fuploads%2Fallimg%2F160618%2F1-16061Q52032434.jpg");
-        model.setTips("3号会议室");
+        model.setImageUrl("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3295833366,790422706&fm=26&gp=0.jpg");
+        model.setTips("明亮宽敞");
         mDatas.add(model);
     }
 
+    /**
+     * 走马灯
+     */
     private void initLamp() {
+        //啦取服务器数据
         List<String> list = new ArrayList<>();
         list.add("关于楼道内杂物的通知");
         list.add("关于五一放假时间调整的通知");
         list.add("关于楼道内杂物的通知");
         list.add("关于五一放假时间调整的通知");
+
         lampView.setLampData(list);
 
         lampView.setOnClickListener((View v) -> {

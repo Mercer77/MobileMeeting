@@ -63,7 +63,7 @@ public class ContactAdapter extends KJAdapter<Contact> implements SectionIndexer
 
         holder.setText(R.id.contact_title, item.getName());
         ImageView headImg = holder.getView(R.id.contact_head);
-        //设置华东或者不活动的时候加载的方式
+        //设置滑动或者不活动的时候加载的方式
 //        if (isScrolling) {
 //            kjb.displayCacheOrDefult(headImg, item.getUrl(), R.drawable.default_head_rect);
 //        } else {

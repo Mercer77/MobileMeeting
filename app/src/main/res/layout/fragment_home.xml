@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="新闻"/>
+                    android:text="会议"/>
                 <ListView
                     android:id="@+id/gg_lv"
                     android:layout_width="match_parent"

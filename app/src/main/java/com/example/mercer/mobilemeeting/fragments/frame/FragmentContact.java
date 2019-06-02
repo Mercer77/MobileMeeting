@@ -190,7 +190,6 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
             e.printStackTrace();
         }
 
-
     }
 
 
