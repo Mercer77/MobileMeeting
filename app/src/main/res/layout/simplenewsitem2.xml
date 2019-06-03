@@ -47,7 +47,8 @@
                 android:id="@+id/simple_time2"
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/simple_title2"
+                android:layout_below="@+id/simple_content2"
+                android:gravity="left"
                 android:text="time"
                 android:textSize="10sp"/>
         </RelativeLayout>

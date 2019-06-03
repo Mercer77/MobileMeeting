@@ -1,22 +1,14 @@
 package com.example.mercer.mobilemeeting.fragments.frame;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,12 +29,9 @@ import com.example.mercer.mobilemeeting.Constant;
 import com.example.mercer.mobilemeeting.R;
 import com.example.mercer.mobilemeeting.fragments.FragmentMeetingDetail;
 import com.example.mercer.mobilemeeting.pojo.BannerModel;
-import com.example.mercer.mobilemeeting.pojo.Contact;
 import com.example.mercer.mobilemeeting.pojo.Meeting;
 import com.example.mercer.mobilemeeting.utils.DataC;
-import com.example.mercer.mobilemeeting.utils.SharedPreferencesUtils;
-import com.example.mercer.mobilemeeting.widget.Friend.ContactAdapter;
-import com.example.mercer.mobilemeeting.widget.Friend.HanziToPinyin;
+import com.example.mercer.mobilemeeting.utils.TimeUtil;
 import com.example.mercer.mobilemeeting.widget.Lamp.LampView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
@@ -55,7 +44,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;

@@ -3,6 +3,8 @@ package com.example.mercer.mobilemeeting.utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * ..
  * author:liangliangattack 1364744931@.qq.com
@@ -21,4 +23,5 @@ public class TimeUtil {
         System. out.println(sdf.format(d));
         return sdf.format(d);
     }
+
 }

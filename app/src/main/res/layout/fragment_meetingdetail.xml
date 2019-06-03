@@ -111,7 +111,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/wd_ll_mymt"
+                            android:id="@+id/ll_join_user"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
@@ -124,7 +124,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="会议聊天记录" />
+                                android:text="参会人员" />
                             <Button
                                 android:alpha="0"
                                 android:layout_width="0dp"
@@ -262,7 +262,7 @@
                                 android:padding="15dp">
                                 <Button
                                     android:visibility="gone"
-                                    android:id="@+id/ms_bt_"
+                                    android:id="@+id/ms_bt_join"
                                     android:layout_width="400dp"
                                     android:layout_height="40dp"
                                     android:background="@drawable/style_mt"
@@ -274,11 +274,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:paddingLeft="15dp"
-                                android:paddingRight="15dp">
+                                android:padding="15dp">
                                 <Button
                                     android:visibility="gone"
-                                    android:id="@+id/ms_bt_delete"
+                                    android:id="@+id/ms_bt_quit"
                                     android:layout_width="400dp"
                                     android:layout_height="40dp"
                                     android:background="@drawable/style_mt_red"
