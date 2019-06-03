@@ -40,6 +40,7 @@ import com.example.mercer.mobilemeeting.pojo.BannerModel;
 import com.example.mercer.mobilemeeting.pojo.Contact;
 import com.example.mercer.mobilemeeting.pojo.Meeting;
 import com.example.mercer.mobilemeeting.utils.DataC;
+import com.example.mercer.mobilemeeting.utils.SharedPreferencesUtils;
 import com.example.mercer.mobilemeeting.widget.Friend.ContactAdapter;
 import com.example.mercer.mobilemeeting.widget.Friend.HanziToPinyin;
 import com.example.mercer.mobilemeeting.widget.Lamp.LampView;
@@ -123,15 +124,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
         gglv.setAdapter(adapter1);
         getMeetingData();
 
+        //会议列表点击事件
         gglv.setOnItemClickListener((parent, view, position, id) -> {
-//            Intent intent = new Intent(getContext(),ActivityGG.class);
-
             Bundle bundle = new Bundle();
             bundle.putInt("position",position);
-//            intent.putExtra("data",bundle);
-//
-//            intent.putExtra("position",position);
-//            Log.e("position",position+"");
+
 //            startActivity(intent);
             FragmentMeetingDetail fragmentMeetingDetail =new FragmentMeetingDetail();
             //把位置传过去
@@ -142,6 +139,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
                     .addToBackStack(null)
                     .commit();
         });
+
         mDatas = new ArrayList<>();
         //初始化mdatas图像数据
         getData();
@@ -222,7 +220,10 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
                 //这里也不用声明get  默认GET请求
                 //获取会议列表数据
                 Request request = new Request.Builder()
-                        .url("http://"+ Constant.IP_LINUX +":8080/MeetingSystem/meeting/queryAllMeetings/1.do")
+//                        .url("http://"+ Constant.IP_LINUX +":8080/MeetingSystem/meeting/queryAllSimpleMeetings/1.do")
+                        .url("http://"+ Constant.IP_LIANG_BLUETOOTH +":8080/MeetingSystem/meeting/queryAllSimpleMeetings/" +
+                                0 +
+                                ".do")
                         .build();
 
                 Response response = client.newCall(request).execute();//得到Response 对象
@@ -240,9 +241,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
                             +"res:"+responseData;
 
                     parseEasyJson(responseData);
-
-
-                    handler.sendMessageDelayed(msg , 2000);
+                    handler.sendMessage(msg);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -268,27 +267,14 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
                 meeting.setTime(jsonObject.getString("time"));
                 meeting.setPath(jsonObject.getString("path"));
                 meeting.setAddress(jsonObject.getString("address"));
-
-                //将第二次层封装到新的JSONObject
-//                JSONObject friendUser = jsonObject.getJSONObject("friendUser");
-//                meeting.setName(friendUser.getString("name"));
-//                meeting.setUrl(friendUser.getString("url"));
-//                meeting.setPinyin(HanziToPinyin.getPinYin(friendUser.getString("name")));
-
-                //放进list
-
-
                 lists.add(meeting);
-
             }
             meetings.addAll(lists);
             //通知handler更新
             handler.sendEmptyMessage(Constant.DATA_CHANGE);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

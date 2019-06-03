@@ -22,7 +22,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".activity.LoginActivity" android:windowSoftInputMode="adjustPan">
+        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
 
         <activity android:name=".activity.SearchDemoActivity"/>
         <activity android:name=".activity.RegisterActivity"/>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".activity.LoginActivity"/>
 
         <service
             android:name=".service.SocketService"

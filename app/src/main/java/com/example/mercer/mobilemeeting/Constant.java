@@ -22,6 +22,7 @@ public class Constant {
     public static final int SHOW_RSPONSE = 2001;//必须申明为final 常量 因为switch里面需要常量
     public static final int SHOW_RSPONSEASYNC = 2002;//必须申明为final 常量 因为switch里面需要常量
     public static final int DATA_CHANGE = 33;
+    public static final int BUTTON_CHANGE = 34;
 
 
     public static final MediaType JSON = MediaType.parse("application/json");
