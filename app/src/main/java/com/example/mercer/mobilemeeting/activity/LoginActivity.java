@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.mercer.mobilemeeting.Constant;
 import com.example.mercer.mobilemeeting.MainActivity;
 import com.example.mercer.mobilemeeting.R;
+import com.example.mercer.mobilemeeting.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -95,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     result = parseEasyJson(responseData);
                     if ((int)result.get("status")==200) {
+                        SharedPreferencesUtils.setUserName("userId",result.get("userId").toString());
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
 
@@ -123,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(json);
             result.put("status", jsonObject.getInt("status"));
             result.put("msg", jsonObject.getString("msg"));
+            result.put("userId",jsonObject.getInt("userId"));
             System.out.print(result.get("status"));
 
 

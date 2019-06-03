@@ -10,9 +10,12 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,6 +24,7 @@ import android.widget.TextView;
 import com.example.mercer.mobilemeeting.Constant;
 import com.example.mercer.mobilemeeting.R;
 import com.example.mercer.mobilemeeting.pojo.Contact;
+import com.example.mercer.mobilemeeting.utils.SharedPreferencesUtils;
 import com.example.mercer.mobilemeeting.widget.Friend.ContactAdapter;
 import com.example.mercer.mobilemeeting.widget.Friend.HanziToPinyin;
 import com.example.mercer.mobilemeeting.widget.Friend.SideBar;
@@ -41,6 +45,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -55,6 +60,7 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
     private ImageView friend_back;
     private List<Contact> datas = new ArrayList<>();
     private ContactAdapter mAdapter;
+    private Map<String,Object> friendInfo;
 
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
@@ -112,7 +118,7 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
     }
 
     private void parser() {
-        datas.clear();
+
 
         //服务器获取数据
         getokhttp();
@@ -120,10 +126,18 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
         mFooterView.setText(datas.size() + "位联系人");
         mAdapter = new ContactAdapter(mListView, datas,getActivity());
         mListView.setAdapter(mAdapter);
+        mListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+                contextMenu.add(0,0,0,"删除好友");
+            }
+        });
+
 
     }
 
     private void getokhttp() {
+        datas.clear();
         //同步请求
         new Thread(()->{
             try {
@@ -131,7 +145,9 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
                 //这里也不用声明get  默认GET请求
                 //获取好友列表数据
                 Request request = new Request.Builder()
-                        .url("http://"+ Constant.IP_LINUX +":8080/MeetingSystem/friend/getFriendList/1.do")
+                        .url("http://"+ Constant.IP_LINUX +":8080/MeetingSystem/friend/getFriendList/" +
+                                SharedPreferencesUtils.getUserName("userId") +
+                                ".do")
                         .build();
 
                 Response response = client.newCall(request).execute();//得到Response 对象
@@ -159,10 +175,12 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
 
         }).start();
 
+
     }
 
     private void parseEasyJson(String json){
         JSONArray jsonArray = null;
+        friendInfo = new HashMap<>();
         try {
             jsonArray = new JSONArray(json);
             Log.e("",jsonArray+"");
@@ -171,10 +189,11 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
                 //拿到第一个json对象
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 Contact contact = new Contact();
-                contact.setId(Integer.parseInt(jsonObject.getString("userId")));
-
                 //将第二次层封装到新的JSONObject
                 JSONObject friendUser = jsonObject.getJSONObject("friendUser");
+                //封装好友id，删除用
+//                friendInfo.put("friendId",friendUser.getInt("userId"));
+                contact.setId(friendUser.getInt("id"));
                 contact.setName(friendUser.getString("name"));
                 contact.setUrl(friendUser.getString("url"));
                 contact.setPinyin(HanziToPinyin.getPinYin(friendUser.getString("name")));
@@ -191,7 +210,57 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
         }
 
     }
+    public void deleteFriend(Map<String,Object> friendInfo){
+        new Thread(()->{
+            try {
+                OkHttpClient client = new OkHttpClient();
+                //这里也不用声明get  默认GET请求
+                //获取好友列表数据
+                Gson gson = new Gson();
+                String json = gson.toJson(friendInfo);
+                RequestBody requestBody = RequestBody.create(Constant.JSON,json);
+                Request request = new Request.Builder()
+                        .url("http://"+ Constant.IP_LINUX +":8080/MeetingSystem/friend/deleteFriend.do")
+                        .post(requestBody)
+                        .build();
 
+                Response response = client.newCall(request).execute();//得到Response 对象
+
+                if (response.isSuccessful()) {//注意response.body().string()只能调用一次
+                    //所以这样写：
+                    String responseData = response.body().string();
+                    Log.d("okhttp","response.code:"+response.code());
+                    Log.d("okhttp","response.message:"+response.message());
+                    Log.d("okhttp","res:"+responseData);
+                    Message msg = new Message();
+                    msg.what = Constant.SHOW_RSPONSE;
+                    msg.obj = "response.code:"+response.code()
+                            +"response.message:"+response.message()
+                            +"res:"+responseData;
+                    try {
+                        JSONObject result = new JSONObject(responseData);
+                        if (result.getInt("status")==200){
+                            getokhttp();
+                        }
+                        else {
+                            Log.e("","删除失败");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+
+    }
 
     @Override
     public void onTouchingLetterChanged(String s) {
@@ -230,4 +299,19 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
     public void afterTextChanged(Editable s) {
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int id = (int) info.id;
+        switch (item.getItemId()){
+            case 0:
+                friendInfo = new HashMap<>();
+                friendInfo.put("userId",Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
+                friendInfo.put("friendId",mAdapter.getItem(id).getId());
+                deleteFriend(friendInfo);
+                break;
+        }
+        return super.onContextItemSelected(item);
+
+    }
 }
