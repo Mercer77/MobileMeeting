@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mercer.mobilemeeting.Constant;
 import com.example.mercer.mobilemeeting.R;
@@ -57,6 +58,7 @@ import okhttp3.Response;
 public class FragmentMeetingDetail extends Fragment {
 
     int position = 0;
+    int meetingId = 0;
     Meeting meeting;
     List<Meeting> meetings = new ArrayList<>();
 
@@ -64,8 +66,7 @@ public class FragmentMeetingDetail extends Fragment {
     @BindView(R.id.meetingTime) TextView meetingTime;
     @BindView(R.id.meetingPicture) CircleImageView meetingPicture;
     @BindView(R.id.linearLayout_Back) LinearLayout linearLayout_Back;
-    @BindView(R.id.ms_bt_join) Button join;
-    @BindView(R.id.ms_bt_quit) Button quit;
+    @BindView(R.id.ms_bt) Button bt;
     @BindView(R.id.ll_join_user) LinearLayout ll_join_user;
 
     @SuppressLint("HandlerLeak")
@@ -78,14 +79,20 @@ public class FragmentMeetingDetail extends Fragment {
                     meetingName.setText(meeting.getMeetingTitle());
                     meetingTime.setText(meeting.getCreateTime());
                     break;
+                case Constant.TOAST:
+                    Toast.makeText(getActivity(), (CharSequence) msg.obj, Toast.LENGTH_SHORT).show();
+
+                    break;
                 case Constant.BUTTON_CHANGE:
                     //改变Button的显示隐藏
                     int isJoin = (int) msg.obj;
                     if(isJoin == 1){
-                        quit.setVisibility(View.VISIBLE);
+                        bt.setBackground(getResources().getDrawable(R.drawable.style_mt_red));
+                        bt.setText("退出会议");
                     }
                     else if(isJoin == 0){
-                        join.setVisibility(View.VISIBLE);
+                        bt.setBackground(getResources().getDrawable(R.drawable.style_mt));
+                        bt.setText("加入会议");
                     }
 
                     break;
@@ -103,6 +110,9 @@ public class FragmentMeetingDetail extends Fragment {
 
         Bundle bundle = getArguments();
         position = bundle.getInt("position");
+        meetingId = bundle.getInt("meetingId");
+        Log.e("FragmentMeetingDetail",meetingId+"");
+
         //初始化图片
         initPicture();
         //初始化数据
@@ -111,7 +121,7 @@ public class FragmentMeetingDetail extends Fragment {
         return rootView;
     }
 
-    @OnClick(R.id.ll_join_user)
+    @OnClick({R.id.ll_join_user,R.id.ms_bt})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.ll_join_user://参会人员
@@ -126,11 +136,13 @@ public class FragmentMeetingDetail extends Fragment {
                         .addToBackStack(null)
                         .commit();
                 break;
-            case R.id.ms_bt_join://加入会议
+            case R.id.ms_bt://加入/退出 会议
+                if(bt.getText().equals("退出会议")){
+                    quitMeeting(position);
+                }
+                else if(bt.getText().equals("加入会议")){
 
-
-                break;
-            case R.id.ms_bt_quit://退出会议
+                }
 
                 break;
             default:break;
@@ -138,16 +150,12 @@ public class FragmentMeetingDetail extends Fragment {
     }
 
     private void initPicture() {
-
         //参数 需要处理的图片
         //不用这种 会出现trying to use a recycled bitmap android.graphics
-
         Resources r = this.getContext().getResources();
         Bitmap bitmap =  BitmapFactory.decodeResource(r,R.mipmap.newsimg2);
-
 //        use a recycled bitmap android.graphics
 //        Bitmap bitmap = ((BitmapDrawable)meetingPicture.getDrawable()).getBitmap();
-
         blur(getActivity(),bitmap);
     }
 
@@ -163,6 +171,10 @@ public class FragmentMeetingDetail extends Fragment {
         }
     }
 
+    /**
+     * 获取会议数据
+     * @param position
+     */
     private void getMeetingData(int position) {
         //同步请求
         new Thread(()->{
@@ -173,18 +185,12 @@ public class FragmentMeetingDetail extends Fragment {
                 Request request = new Request.Builder()
                         .url("http://"+ Constant.IP_LIANG_BLUETOOTH +":8080/MeetingSystem/meeting/queryAllMeetings/" +
                                 "0/" +
-                                (position+1) +
-                                ".do")
-                        .build();
-
+                                meetingId +
+                                ".do").build();
                 Response response = client.newCall(request).execute();//得到Response 对象
-
                 if (response.isSuccessful()) {//注意response.body().string()只能调用一次
                     //所以这样写：
                     String responseData = response.body().string();
-                    Log.d("okhttp","response.code:"+response.code());
-                    Log.d("okhttp","response.message:"+response.message());
-                    Log.d("okhttp","res:"+responseData);
                     Message msg = new Message();
                     msg.what = Constant.DATA_CHANGE;
                     msg.obj = "response.code:"+response.code()
@@ -199,9 +205,7 @@ public class FragmentMeetingDetail extends Fragment {
             }
 
         }).start();
-
     }
-
     private void parseEasyJson(String json,int position){
         JSONArray jsonArray = null;
         try {
@@ -220,6 +224,50 @@ public class FragmentMeetingDetail extends Fragment {
             meeting.setAddress(jsonObject.getString("address"));
 
             judgeMeeting(position);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 退出会议
+     * @param position
+     */
+    private void quitMeeting(int position) {
+        new Thread(()->{
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url("http://"+ Constant.IP_LIANG_BLUETOOTH +":8080/MeetingSystem/invitation/quitMeeting/" +
+                                SharedPreferencesUtils.getUserName("userId") +"/"+
+                                meetingId +
+                                ".do").build();
+                Response response = client.newCall(request).execute();//得到Response 对象
+                if (response.isSuccessful()) {//注意response.body().string()只能调用一次
+                    String responseData = response.body().string();
+                    parseMapJson(responseData,position);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+    }
+    private void parseMapJson(String json,int position){
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            Message msg = new Message();
+            msg.what = Constant.TOAST;
+            msg.obj = "退出结果:"+jsonObject.getString("msg")
+                    + jsonObject.getString("status")+"";
+            handler.sendMessage(msg);
+
+            Message msg2 = new Message();
+            msg2.what = Constant.BUTTON_CHANGE;
+            msg2.obj = 0;
+            handler.sendMessage(msg2);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -262,7 +310,6 @@ public class FragmentMeetingDetail extends Fragment {
         }).start();
 
     }
-
     private void judgeParseEasyJson(String json){
         JSONArray jsonArray = null;
         try {

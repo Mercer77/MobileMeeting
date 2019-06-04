@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         RequestBody requestBody = RequestBody.create(Constant.JSON, data);
 
         Request request = new Request.Builder()
-                .url("http://" + Constant.IP_LINUX + ":8080/MeetingSystem/user/login.do")
+                .url("http://" + Constant.IP_LIANG_BLUETOOTH + ":8080/MeetingSystem/user/login.do")
                 .post(requestBody)
                 .build();
 

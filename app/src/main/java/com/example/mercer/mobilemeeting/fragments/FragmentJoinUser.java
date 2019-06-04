@@ -114,7 +114,7 @@ public class FragmentJoinUser extends Fragment implements SideBar.OnTouchingLett
                 //这里也不用声明get  默认GET请求
                 //获取当前会议参会人员
                 Request request = new Request.Builder()
-                        .url("http://"+ Constant.IP_LINUX +":8080/MeetingSystem/meeting/queryAllInvitation/" +
+                        .url("http://"+ Constant.IP_LIANG_BLUETOOTH +":8080/MeetingSystem/meeting/queryAllInvitation/" +
                                 "1" +
                                 ".do")
                         .build();

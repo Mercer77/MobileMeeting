@@ -126,12 +126,8 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
         mFooterView.setText(datas.size() + "位联系人");
         mAdapter = new ContactAdapter(mListView, datas,getActivity());
         mListView.setAdapter(mAdapter);
-        mListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-                contextMenu.add(0,0,0,"删除好友");
-            }
-        });
+        mListView.setOnCreateContextMenuListener((contextMenu, view, contextMenuInfo) ->
+                contextMenu.add(0,0,0,"删除好友"));
 
 
     }
@@ -145,7 +141,7 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
                 //这里也不用声明get  默认GET请求
                 //获取好友列表数据
                 Request request = new Request.Builder()
-                        .url("http://"+ Constant.IP_LINUX +":8080/MeetingSystem/friend/getFriendList/" +
+                        .url("http://"+ Constant.IP_LIANG_BLUETOOTH +":8080/MeetingSystem/friend/getFriendList/" +
                                 SharedPreferencesUtils.getUserName("userId") +
                                 ".do")
                         .build();
@@ -220,7 +216,7 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
                 String json = gson.toJson(friendInfo);
                 RequestBody requestBody = RequestBody.create(Constant.JSON,json);
                 Request request = new Request.Builder()
-                        .url("http://"+ Constant.IP_LINUX +":8080/MeetingSystem/friend/deleteFriend.do")
+                        .url("http://"+ Constant.IP_LIANG_BLUETOOTH +":8080/MeetingSystem/friend/deleteFriend.do")
                         .post(requestBody)
                         .build();
 
@@ -249,9 +245,6 @@ public class FragmentContact extends Fragment implements SideBar.OnTouchingLette
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
-
 
                 }
             } catch (IOException e) {

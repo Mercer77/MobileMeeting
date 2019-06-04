@@ -116,6 +116,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
         gglv.setOnItemClickListener((parent, view, position, id) -> {
             Bundle bundle = new Bundle();
             bundle.putInt("position",position);
+            bundle.putInt("meetingId",meetings.get(position).getId());
 
 //            startActivity(intent);
             FragmentMeetingDetail fragmentMeetingDetail =new FragmentMeetingDetail();
@@ -249,6 +250,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener ,
                 //拿到第一个json对象
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 Meeting meeting = new Meeting();
+                meeting.setId(jsonObject.getInt("id"));
                 meeting.setMeetingTitle(jsonObject.getString("meetingTitle"));
                 meeting.setMeetingContent(jsonObject.getString("meetingContent"));
                 meeting.setCreateTime(jsonObject.getString("createTime"));

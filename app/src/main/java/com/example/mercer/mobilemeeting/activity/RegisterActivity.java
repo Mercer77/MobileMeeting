@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     .add("name", name)
                     .build();
             Request request = new Request.Builder()
-                    .url("http://"+Constant.IP_LINUX+":8080/MeetingSystem/user/register.do")
+                    .url("http://"+Constant.IP_LIANG_BLUETOOTH+":8080/MeetingSystem/user/register.do")
                     .post(requestBody)
                     .build();
             Call call = okHttpClient.newCall(request);

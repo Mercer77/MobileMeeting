@@ -245,7 +245,7 @@ public class FragmentMessage extends Fragment implements ServiceConnection {
     private void getData() {
         messageEsays.clear();
         //创造模拟数据
-//        createData();
+        createData();
 
 //        数据库中查询数据
         MsgDao msgDao = new MsgDao(getActivity());

@@ -27,4 +27,5 @@ public class Constant {
 
     public static final MediaType JSON = MediaType.parse("application/json");
 
+    public static final int TOAST = 35;
 }

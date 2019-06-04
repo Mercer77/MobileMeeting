@@ -261,29 +261,27 @@
                                 android:gravity="center"
                                 android:padding="15dp">
                                 <Button
-                                    android:visibility="gone"
-                                    android:id="@+id/ms_bt_join"
+                                    android:id="@+id/ms_bt"
                                     android:layout_width="400dp"
                                     android:layout_height="40dp"
-                                    android:background="@drawable/style_mt"
-                                    android:text="加入会议"
+                                    android:background="@drawable/style_mt_grey"
+                                    android:text="操作"
                                     android:textColor="#fff"/>
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:padding="15dp">
-                                <Button
-                                    android:visibility="gone"
-                                    android:id="@+id/ms_bt_quit"
-                                    android:layout_width="400dp"
-                                    android:layout_height="40dp"
-                                    android:background="@drawable/style_mt_red"
-                                    android:text="退出会议"
-                                    android:textColor="#fff"/>
-                            </LinearLayout>
+                            <!--<LinearLayout-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:gravity="center"-->
+                                <!--android:padding="15dp">-->
+                                <!--<Button-->
+                                    <!--android:id="@+id/ms_bt_quit"-->
+                                    <!--android:layout_width="400dp"-->
+                                    <!--android:layout_height="40dp"-->
+                                    <!--android:background="@drawable/style_mt_red"-->
+                                    <!--android:text="退出会议"-->
+                                    <!--android:textColor="#fff"/>-->
+                            <!--</LinearLayout>-->
 
                             <View
                                 android:layout_width="match_parent"
