@@ -61,6 +61,7 @@ public class FragmentMeetingDetail extends Fragment {
     int meetingId = 0;
     Meeting meeting;
     List<Meeting> meetings = new ArrayList<>();
+    int flag = 3;
 
     @BindView(R.id.meetingName) TextView meetingName;
     @BindView(R.id.meetingTime) TextView meetingTime;
@@ -138,10 +139,10 @@ public class FragmentMeetingDetail extends Fragment {
                 break;
             case R.id.ms_bt://加入/退出 会议
                 if(bt.getText().equals("退出会议")){
-                    quitMeeting(position);
+                    changeMeeting(position,"quitMeeting");
                 }
                 else if(bt.getText().equals("加入会议")){
-
+                    changeMeeting(position,"joinMeeting");
                 }
 
                 break;
@@ -234,19 +235,25 @@ public class FragmentMeetingDetail extends Fragment {
      * 退出会议
      * @param position
      */
-    private void quitMeeting(int position) {
+    private void changeMeeting(int position,String changeMeeting) {
+
+        if(flag-- < 0) {
+            Toast.makeText(getActivity(), "您的操作太过频繁..请稍后再试！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         new Thread(()->{
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url("http://"+ Constant.IP_LIANG_BLUETOOTH +":8080/MeetingSystem/invitation/quitMeeting/" +
+                        .url("http://"+ Constant.IP_LIANG_BLUETOOTH +":8080/MeetingSystem/invitation/"+changeMeeting+"/" +
                                 SharedPreferencesUtils.getUserName("userId") +"/"+
                                 meetingId +
                                 ".do").build();
                 Response response = client.newCall(request).execute();//得到Response 对象
                 if (response.isSuccessful()) {//注意response.body().string()只能调用一次
                     String responseData = response.body().string();
-                    parseMapJson(responseData,position);
+                    parseMapJson(responseData,changeMeeting);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -254,18 +261,18 @@ public class FragmentMeetingDetail extends Fragment {
 
         }).start();
     }
-    private void parseMapJson(String json,int position){
+    private void parseMapJson(String json,String changeMeeting){
         try {
             JSONObject jsonObject = new JSONObject(json);
             Message msg = new Message();
             msg.what = Constant.TOAST;
-            msg.obj = "退出结果:"+jsonObject.getString("msg")
+            msg.obj = "结果:"+jsonObject.getString("msg")
                     + jsonObject.getString("status")+"";
             handler.sendMessage(msg);
 
             Message msg2 = new Message();
             msg2.what = Constant.BUTTON_CHANGE;
-            msg2.obj = 0;
+            msg2.obj = "quitMeeting".equals(changeMeeting) ? 0 : 1;
             handler.sendMessage(msg2);
 
 
